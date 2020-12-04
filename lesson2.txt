@@ -1,0 +1,32 @@
+mysql -u root -p
+
+CREATE DATABASE example;
+
+SHOW DATABASES;
+
+USE example;
+
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+  id INT UNSIGNED,
+  name VARCHAR(255) COMMENT 'Имя пользователя'
+) COMMENT = 'Пользователи';
+
+INSERT INTO users VALUES (1,'Alex');
+INSERT INTO users VALUES (2, 'Иван');
+INSERT INTO users VALUES (3, 'Anna');
+INSERT INTO users VALUES (4, 'Света');
+INSERT INTO users VALUES (5, 'Mike');
+
+
+mysqldump -uroot -proot example > dump_example.sql
+
+
+mysql -u root -p
+CREATE DATABASE sample;
+
+mysql -uroot -hlocalhost -proot sample < dump_example.sql
+
+mysqldump --opt --where="1 limit 100" mysql help_keyword > help_keyword.sql
+
+
