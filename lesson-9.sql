@@ -53,7 +53,7 @@ GRANT SELECT ON shop.* TO 'shop_read'@'localhost';
 
 -- тестируем пользователя shop_read 
 INSERT INTO catalogs (name)
-VALUES('New catalog');
+VALUES('Периферийные устройства');
 -- выдает сообщение что нет прав: INSERT command denied to user 'shop_read'@'localhost' for table 'catalogs'
 
 SELECT * FROM catalogs;
@@ -66,10 +66,10 @@ GRANT GRANT OPTION ON shop.* TO 'shop'@'localhost';
 
 -- Проверяем права пользователя shop 
 INSERT INTO catalogs(name)
-VALUES('New catalog');
+VALUES('Периферийные устройства');
 -- запрос проходит успешно
 DELETE FROM catalogs
-WHERE name='New catalog';
+WHERE name='Периферийные устройства';
 -- запрос проходит успешно
 SELECT * FROM catalogs;
 -- запрос проходит успешно
