@@ -53,7 +53,7 @@ GRANT SELECT ON shop.* TO 'shop_read'@'localhost';
 
 -- тестируем пользователя shop_read 
 INSERT INTO catalogs (name)
-VALUES('Периферийные устройства');
+VALUES('New catalog');
 -- выдает сообщение что нет прав: INSERT command denied to user 'shop_read'@'localhost' for table 'catalogs'
 
 SELECT * FROM catalogs;
@@ -66,10 +66,10 @@ GRANT GRANT OPTION ON shop.* TO 'shop'@'localhost';
 
 -- Проверяем права пользователя shop 
 INSERT INTO catalogs(name)
-VALUES('Периферийные устройства');
+VALUES('New catalog');
 -- запрос проходит успешно
 DELETE FROM catalogs
-WHERE name='Периферийные устройства';
+WHERE name='New catalog';
 -- запрос проходит успешно
 SELECT * FROM catalogs;
 -- запрос проходит успешно
@@ -147,5 +147,23 @@ CALL hello();
 -- NULL неприемлема. Используя триггеры, добейтесь того, чтобы одно из этих полей или оба поля были заполнены. 
 -- При попытке присвоить полям NULL-значение необходимо отменить операцию.
 
+DELIMITER //
+CREATE TRIGGER checking_fill_name_and_description BEFORE INSERT ON products
+FOR EACH ROW BEGIN
+	IF NEW.name IS NULL AND NEW.description IS NULL THEN
+		SIGNAL SQLSTATE '45000'	
+        SET MESSAGE_TEXT = 'Заполните одно из полей name или description. Оба поля имеют значение NULl';
+	END IF;
+END//
+DELIMITER ;
 
+-- смотрим записался ли триггер
+SHOW triggers \G;
 
+-- проверяем работу триггера 
+
+INSERT INTO products (name, description, price, catalog_id)
+VALUES (NULL, NULL, 1000, 1); 
+
+INSERT INTO products (name, description, price, catalog_id)
+VALUES ("Intel core i7", NULL, 30000, 1);
