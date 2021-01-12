@@ -98,4 +98,15 @@ get users:Alex_Fox
 
 -- Организуйте хранение категорий и товарных позиций учебной базы данных shop в СУБД MongoDB.
 
+-- Создаем таблицу products 
+use products
+db.products.insertMany([
+	{"name": "Intel Core i7", "description": "Процессор для ПК", "price": "27000.00", "catalog_id": "Процессоры", "created_at": new Date(), "updated_at": new Date()},
+	{"name": "AMD Ryzen 5", "description": "Процессор для ПК", "price": "18500.00", "catalog_id": "Процессоры", "created_at": new Date(), "updated_at": new Date()},
+	{"name": "MSI B250M GAMING PRO", "description": "MSI B250M GAMING PRO, B250, Socket 1151, DDR4, mATX", "price": "7500.00", "catalog_id": "Мат.платы", "created_at": new Date(), "updated_at": new Date()}])
+    
 
+-- ищем по имени и названию категории
+db.products.find({name: "Intel Core i7"}).pretty()
+
+db.products.find({catalog_id: "Процессоры"}).pretty()
