@@ -91,6 +91,11 @@ ZSCORE ip_ '192.168.1.1'
 
 -- поиск электронного адреса пользователя по его имени.
 
+mset users:user@mail.ru 'Alex_Fox' users:Alex_Fox 'user@mail.ru'
+get users:user@mail.ru 
+get users:Alex_Fox 
 
 
 -- Организуйте хранение категорий и товарных позиций учебной базы данных shop в СУБД MongoDB.
+
+
