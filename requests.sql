@@ -66,3 +66,20 @@ VIEW `transfer_itog` AS
         `transfer`
     GROUP BY `soft`
 
+-- Представление выводящее остатки ПО (то что куплено, но не выдано подразделениям)
+
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `alex`@`%` 
+    SQL SECURITY DEFINER
+VIEW `remain` AS
+    SELECT 
+        `soft_itog`.`soft` AS `soft`,
+        (`soft_itog`.`itog` - `transfer_itog`.`itog`) AS `remainder`
+    FROM
+        (`soft_itog`
+        LEFT JOIN `transfer_itog` ON ((`soft_itog`.`soft_id` = `transfer_itog`.`soft_id`)))
+    WHERE
+        ((`soft_itog`.`itog` - `transfer_itog`.`itog`) > 0)
+    ORDER BY `soft_itog`.`soft`
+
