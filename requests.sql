@@ -74,6 +74,7 @@ CREATE
     SQL SECURITY DEFINER
 VIEW `remain` AS
     SELECT 
+        `soft_itog`.`soft_id` AS `soft_id`,
         `soft_itog`.`soft` AS `soft`,
         (`soft_itog`.`itog` - `transfer_itog`.`itog`) AS `remainder`
     FROM
@@ -82,7 +83,7 @@ VIEW `remain` AS
     WHERE
         ((`soft_itog`.`itog` - `transfer_itog`.`itog`) > 0)
     ORDER BY `soft_itog`.`soft`
-
+    
 -- Функция делает из короткого номера телефона, телефон с кодом страны и города.
 
 DELIMITER //
