@@ -83,3 +83,21 @@ VIEW `remain` AS
         ((`soft_itog`.`itog` - `transfer_itog`.`itog`) > 0)
     ORDER BY `soft_itog`.`soft`
 
+-- Функция делает из короткого номера телефона, телефон с кодом страны и города.
+
+DELIMITER //
+CREATE DEFINER=`alex`@`%` FUNCTION `phone`(word VARCHAR(10)) RETURNS varchar(20) CHARSET utf8
+    DETERMINISTIC
+BEGIN
+  DECLARE result varchar(20);
+  SET result =  CONCAT('+7 (3532)',' ', word);
+RETURN (result);
+END//
+DELIMITER ;
+
+-- Проверяем работу функции, выведем фамилию и имя матответственного лица и его номер телефона в федеральном формате.
+
+SELECT last_name, first_name, phone(phone) FROM mol;
+
+
+
