@@ -101,4 +101,18 @@ DELIMITER ;
 SELECT last_name, first_name, phone(phone) FROM mol;
 
 
+-- Триггер отмены вставки в таблицу transfer если количество передаваемых подразделению лицензий превышает остаток этих лицензий
 
+DELIMITER //
+CREATE TRIGGER check_remainder BEFORE INSERT ON transfer
+FOR EACH ROW BEGIN
+	IF NEW.number > (SELECT remainder FROM remain WHERE soft_id = NEW.license_soft_id) THEN
+		SIGNAL SQLSTATE '45000'	
+        SET MESSAGE_TEXT = 'Недостаточно лицензий для передачи.';
+	END IF;
+END//
+DELIMITER ;
+
+-- Проверяем работу триггера
+
+INSERT INTO `transfer` (`id`,`data`,`number`,`mol_id`,`mol_department_id`,`license_id`,`license_lic_type_id`,`license_soft_id`,`license_contract_id`) VALUES (114,'2021-02-01',5,12,7,686,3,34,20);
